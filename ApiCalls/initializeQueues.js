@@ -1,5 +1,5 @@
 const main = require('./../main')
-const data = require('../Data/constants.js')
+const data = require('./../Data/constants.js')
 const async = require('./../node_modules/async');
 const axios = require('./../node_modules/axios');
 const logger = require('./errorHandling/errorLogging');
