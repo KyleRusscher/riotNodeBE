@@ -53,10 +53,9 @@ function initializeMasterPlus() {
 
 
 function summonerIdsToAccountIds(summonerId){
+    rate_limit.updateRateLimits("SUMMONER_RATE_LIMIT");
     axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}`, {headers})
         .then(response => {
-            checkForRateLimit(response.headers['x-app-rate-limit'], response.headers['x-app-rate-limit-count'],
-                response.headers['x-method-rate-limit'], response.headers['x-method-rate-limit-count'], response.headers['']);
             return response.data.accountId;
         })
         .catch(err => {
