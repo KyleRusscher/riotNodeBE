@@ -17,14 +17,19 @@ const headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
 }
 
-let mapsAndSets = {
-    allIdsLastUsed: {},
-    queueSet: new Set(),
-    usedMatchIdsSet: new Set()
+let concurrent = {
+    summonerIdSet: new Set(),
+    matchIdSet: new Set(),
+    
+}
+let all_time = {
+    matchIdsSet: new Set(),
+    summonerIdToLastUsed: {},
 }
 
 module.exports = {
     constants,
     headers,
-    mapsAndSets
+    concurrent,
+    all_time
 }
