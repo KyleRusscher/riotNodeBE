@@ -29,7 +29,7 @@ let SUMMONER_RATE_LIMIT = {
 
 function updateRateLimits(endPointName){
     const initialTime = Date.now()
-    if(initialTime > this[endPointName].initial_time){
+    if(initialTime > this[endPointName].initial_time + this[endPointName].interval){
         this[endPointName].count = 1;
         this[endPointName].initial_time = initialTime;
     } else if(this[endPointName].allowed - this[endPointName].count < amountOffRateLimit){
@@ -49,7 +49,7 @@ function updateRateLimits(endPointName){
 function updateApplicationRateLimit(){
     APPLICATION_RATE_LIMIT.forEach(limit => {
         let initialTime = Date.now()
-        if(initialTime > limit.initial_time){
+        if(initialTime > limit.initial_time + limit.interval){
             limit.count = 1;
             limit.initial_time = initialTime;
         } else if(limit.allowed - limit.count < amountOffRateLimit) {
