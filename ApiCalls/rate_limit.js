@@ -39,6 +39,7 @@ function updateRateLimits(endPointName){
             console.log("waiting for: " + timeNeededToWait / 1000 + " seconds")
             this[endPointName].count++
         }, timeNeededToWait);
+        // TODO: need to insert into db here... will happen during the wait
     } else {
         this[endPointName].count++;
     }
@@ -58,6 +59,7 @@ function updateApplicationRateLimit(){
                 console.log("waiting for: " + timeNeededToWait / 1000 + " seconds")
                 limit.count++
             }, timeNeededToWait);
+            // TODO: need to insert into db here... will happen during the wait
         } else {
             limit.count++;
         }
