@@ -1,3 +1,4 @@
+//TODO: change name to processQueues.js
 const main = require('../main')
 const data = require('../Data/constants.js')
 const async = require('./node_modules/async');
@@ -22,6 +23,29 @@ function processSummonerId(summonerId) {
         });
 }
 
+function processMatchData(data){
+    //TODO: implement
+}
+// TODO: implement what is needed from match data
+function processMatchId(matchId) {
+    rate_limit.updateRateLimits("MATCHES_RATE_LIMIT");
+    axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${matchId}`, {headers})
+        .then(response => {
+             //TODO: add matchId to all time matchIds and to be inserted match ids
+            const formatedData = getRequiredDate(response.data);
+            main.matchDataQueue.push({matchData: formatedData})
+        })
+        .catch(err => {
+            logger.info(err.response.data, err.response.headers.date);
+        });
+}
+
+function getRequiredDate(data) {
+    return data
+}
+
 module.exports = {
-    processSummonerId
+    processSummonerId,
+    processMatchId,
+    processMatchData
 }
