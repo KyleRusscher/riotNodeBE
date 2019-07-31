@@ -63,77 +63,48 @@ function updateApplicationRateLimit(){
     })
 }
 
-// try to pass in a url and an object name and condense each of these methods into one
-// would need one shared function for method rate limits and another for application rate limits
-// would allow us to remove 2 functions.
 function getAllRateLimits() {
-    setMatchAndKeyLimits();
-    setMatchListLimits();
-    setSummonerLimits();
+    setMethodRateLimits("https://na1.api.riotgames.com/lol/match/v4/matches/2771489407", "MATCHES_RATE_LIMIT");
+    setMethodRateLimits("https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/HChslF21F_QcYWDPxFKbSjtBveC4Utg0ZGGbBl6INyjcnz8", "MATCH_LIST_RATE_LIMIT");
+    setMethodRateLimits("https://na1.api.riotgames.com/lol/summoner/v4/summoners/qS2xtsrVG_lZ0IN8qK-b6JZCFBIBVAvvdhoxDFS-MdZgAiU","SUMMONER_RATE_LIMIT");
+    setApplicationRateLimit()
     return Promise.resolve()
 }
 
-function setMatchAndKeyLimits() {
-    const MATCH_ID = "2771489407"
-    const timeWhenCallWasMade = Date.now();
-    axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${MATCH_ID}`, {headers})
-    .then(response => {
-        const methodRateLimitResponse = response.headers['x-method-rate-limit'].split(':');
-        MATCHES_RATE_LIMIT.allowed = parseInt(methodRateLimitResponse[0]);
-        MATCHES_RATE_LIMIT.interval = parseInt(methodRateLimitResponse[1]) * 1000;
-        MATCHES_RATE_LIMIT.initial_time = timeWhenCallWasMade;
-        MATCHES_RATE_LIMIT.count++;
-
-        const applicationRateLimitResponseArr = response.headers['x-app-rate-limit'].split(',');
-        setApplicationRateLimit(applicationRateLimitResponseArr, timeWhenCallWasMade)
-    })
-    .catch(err => {
-        logger.info(err.response.data, err.response.headers.date);
-    });
+function setApplicationRateLimit(){
+  const SUMMONER_ID = "qS2xtsrVG_lZ0IN8qK-b6JZCFBIBVAvvdhoxDFS-MdZgAiU"
+  const timeWhenCallWasMade = Date.now();
+  axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/${SUMMONER_ID}`, {headers})
+  .then(response => {
+      const applicationRateLimitResponseArr = response.headers['x-app-rate-limit'].split(',');
+      applicationRateLimitResponseArr.forEach(limit => {
+          let data = {
+              allowed: parseInt(limit.split(':')[0]),
+              interval: parseInt(limit.split(':')[1]) * 1000,
+              count: 4,
+              initial_time: timeWhenCallWasMade
+          }
+          APPLICATION_RATE_LIMIT.push(data)
+      });
+  })
+  .catch(err => {
+      logger.info(err.response.data, err.response.headers.date)
+  });
 }
 
-function setApplicationRateLimit(applicationRateLimitResponseArr, timeWhenCallWasMade){
-    applicationRateLimitResponseArr.forEach(limit => {
-        let data = {
-            allowed: parseInt(limit.split(':')[0]),
-            interval: parseInt(limit.split(':')[1]) * 1000,
-            count: 1,
-            initial_time: timeWhenCallWasMade
-        }
-        APPLICATION_RATE_LIMIT.push(data)
-    });
-}
-function setMatchListLimits(){
-    const ACCOUNT_ID = "HChslF21F_QcYWDPxFKbSjtBveC4Utg0ZGGbBl6INyjcnz8";
+function setMethodRateLimits(restUrl, method){
     const timeWhenCallWasMade = Date.now();
-    axios.get(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${ACCOUNT_ID}`, {headers})
+    axios.get(restUrl, {headers})
     .then(response => {
         const methodRateLimitResponse = response.headers['x-method-rate-limit'].split(':');
-        MATCH_LIST_RATE_LIMIT.allowed = parseInt(methodRateLimitResponse[0]);
-        MATCH_LIST_RATE_LIMIT.interval = parseInt(methodRateLimitResponse[1]) * 1000;
-        MATCH_LIST_RATE_LIMIT.initial_time = timeWhenCallWasMade;
-        MATCH_LIST_RATE_LIMIT.count++;
+        this[method].allowed = parseInt(methodRateLimitResponse[0]);
+        this[method].interval = parseInt(methodRateLimitResponse[1]) * 1000;
+        this[method].initial_time = timeWhenCallWasMade;
+        this[method].count++;
     })
     .catch(err => {
         logger.info(err.response.data, err.response.headers.date)
     });
-}
-
-function setSummonerLimits() {
-    const SUMMONER_ID = "qS2xtsrVG_lZ0IN8qK-b6JZCFBIBVAvvdhoxDFS-MdZgAiU";
-    const timeWhenCallWasMade = Date.now();
-    axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/${SUMMONER_ID}`, {headers})
-    .then(response => {
-        const methodRateLimitResponse = response.headers['x-method-rate-limit'].split(':');
-        SUMMONER_RATE_LIMIT.allowed = parseInt(methodRateLimitResponse[0]);
-        SUMMONER_RATE_LIMIT.interval = parseInt(methodRateLimitResponse[1]) * 1000;
-        SUMMONER_RATE_LIMIT.initial_time = timeWhenCallWasMade;
-        SUMMONER_RATE_LIMIT.count++;
-    })
-    .catch(err => {
-        logger.info(err.response.data, err.response.headers.date)
-    })
-
 }
 
 module.exports = {
