@@ -2,10 +2,12 @@ const main = require('../main')
 const data = require('../Data/constants.js')
 const axios = require('./node_modules/axios');
 const logger = require('./errorHandling/errorLogging');
+const rate_limit = require('./rate_limit');
 const headers = data.headers;
 
 // TODO: implement what is needed from match data
 function processMatchId(matchId) {
+    rate_limit.updateRateLimits("MATCHES_RATE_LIMIT");
     axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${matchId}`, {headers})
         .then(response => {
             const formatedData = getRequiredDate(response.data);
