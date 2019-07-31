@@ -5,6 +5,11 @@ const axios = require('./../node_modules/axios');
 const logger = require('./errorHandling/errorLogging');
 const headers = data.headers;
 
+function initializeSummonerIdQueue() {
+    initializeBelowMaster();
+    initializeMasterPlus();
+}
+
 function initializeBelowMaster() {
     data.constants.ranks.forEach(rank => {
         data.constants.divisions.forEach(division => {
@@ -55,6 +60,5 @@ function summonerIdsToAccountIds(summonerId){
 }
 
 module.exports = {
-    initializeBelowMaster,
-    initializeMasterPlus
+    initializeSummonerIdQueue
 }
