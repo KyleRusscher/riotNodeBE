@@ -10,6 +10,11 @@ function initializeSummonerIdQueue() {
     initializeMasterPlus();
 }
 
+function initializeSummonerIdQueue() {
+    // connect this with DB module and assign initial data values
+    return Promise.resolve();
+}
+
 function initializeBelowMaster() {
     data.constants.ranks.forEach(rank => {
         data.constants.divisions.forEach(division => {
@@ -60,5 +65,6 @@ function summonerIdsToAccountIds(summonerId){
 }
 
 module.exports = {
-    initializeSummonerIdQueue
+    initializeSummonerIdQueue,
+    getExistingQueueData
 }
