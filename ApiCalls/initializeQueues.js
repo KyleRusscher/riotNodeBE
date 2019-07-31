@@ -4,7 +4,7 @@ const async = require('./../node_modules/async');
 const axios = require('./../node_modules/axios');
 const logger = require('./errorHandling/errorLogging');
 const headers = data.headers;
-
+// TODO: add rate limiting for this even though its only ~25 calls
 function initializeBelowMaster() {
     data.constants.ranks.forEach(rank => {
         data.constants.divisions.forEach(division => {
