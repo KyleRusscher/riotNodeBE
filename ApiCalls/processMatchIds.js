@@ -10,6 +10,7 @@ function processMatchId(matchId) {
     rate_limit.updateRateLimits("MATCHES_RATE_LIMIT");
     axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${matchId}`, {headers})
         .then(response => {
+             //TODO: add matchId to all time matchIds and to be inserted match ids
             const formatedData = getRequiredDate(response.data);
             main.matchDataQueue.push({matchData: formatedData})
         })
