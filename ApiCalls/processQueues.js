@@ -1,8 +1,7 @@
-//TODO: change name to processQueues.js
-const main = require('../main')
-const data = require('../Data/constants.js')
-const async = require('./node_modules/async');
-const axios = require('./node_modules/axios');
+const main = require('./../main')
+const data = require('./../Data/constants.js')
+const async = require('./../node_modules/async');
+const axios = require('./../node_modules/axios');
 const rate_limit = require('./rate_limit');
 const logger = require('./errorHandling/errorLogging');
 const headers = data.headers;
@@ -26,7 +25,7 @@ function processSummonerId(summonerId) {
 function processMatchData(data){
     //TODO: implement
 }
-// TODO: implement what is needed from match data
+
 function processMatchId(matchId) {
     rate_limit.updateRateLimits("MATCHES_RATE_LIMIT");
     axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${matchId}`, {headers})
@@ -40,6 +39,7 @@ function processMatchId(matchId) {
         });
 }
 
+// TODO: implement what is needed from match data (eventually create multiple data extraction methods for different purposes)
 function getRequiredDate(data) {
     return data
 }
