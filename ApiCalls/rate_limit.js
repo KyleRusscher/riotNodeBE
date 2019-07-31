@@ -63,6 +63,9 @@ function updateApplicationRateLimit(){
     })
 }
 
+// try to pass in a url and an object name and condense each of these methods into one
+// would need one shared function for method rate limits and another for application rate limits
+// would allow us to remove 2 functions.
 function getAllRateLimits() {
     setMatchAndKeyLimits();
     setMatchListLimits();
