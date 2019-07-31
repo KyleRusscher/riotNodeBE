@@ -1,5 +1,5 @@
 const async = require('async');
-const process = require('./processQueues')
+const process = require('./ApiCalls/processQueues')
 const taskQueueConcurrency = 1;
 
 var summonerIdQueue = async.queue(function(task, cb) {
