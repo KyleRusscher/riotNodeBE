@@ -11,6 +11,7 @@ function processSummonerId(summonerId) {
     axios.get(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${summonerId}`, {headers})
         .then(response => {
             async.each(response.data.matches, function(match, cb) {
+                // TODO: add participants back to summonerIdQueue and add / remove data from queues
                 console.log(match.gameId)
                 main.matchIdQueue.push({matchId: match.gameId})
                 cb();
