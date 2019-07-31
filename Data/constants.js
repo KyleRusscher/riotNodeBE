@@ -37,5 +37,6 @@ module.exports = {
     constants,
     headers,
     concurrent,
-    all_time
+    all_time,
+    to_be_inserted
 }
