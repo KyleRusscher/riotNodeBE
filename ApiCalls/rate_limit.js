@@ -1,9 +1,10 @@
-const main = require('../main')
-const data = require('../Data/constants.js')
-const async = require('async');
-const axios = require('axios');
+const main = require('./../main')
+const data = require('./../Data/constants.js')
+const async = require('./../node_modules/async');
+const axios = require('./../node_modules/axios');
 const logger = require('./errorHandling/errorLogging');
 const headers = data.headers;
+
 const amountOffRateLimit = 5
 // need to seperately look out for serivce rate limits after each call in catch
 let APPLICATION_RATE_LIMIT = []
