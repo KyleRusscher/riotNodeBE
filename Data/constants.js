@@ -17,18 +17,18 @@ const headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
 }
 
-let concurrent = {
+const concurrent = {
     summonerIdSet: new Set(),
     matchIdSet: new Set(),
     
 }
-let all_time = {
+const all_time = {
     matchIdsSet: new Set(),
     summonerIdToLastUsed: {},
 }
 
 // on insert to DB this should be reset
-let to_be_inserted = {
+const to_be_inserted = {
     matchIdsSet: new Set(),
     summonerIdToLastUsed: {},
 }
