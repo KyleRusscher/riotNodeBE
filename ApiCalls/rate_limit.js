@@ -26,7 +26,7 @@ let SUMMONER_RATE_LIMIT = {
     interval: 0
 };
 
-function updateMethodRateLimit(endPointName){
+function updateRateLimits(endPointName){
     const initialTime = Date.now()
     if(initialTime > this[endPointName].initial_time){
         this[endPointName].count = 1;
@@ -63,7 +63,7 @@ function updateApplicationRateLimit(){
     })
 }
 
-function getAllRateLimits() {
+function setAllRateLimits() {
     setMethodRateLimits("https://na1.api.riotgames.com/lol/match/v4/matches/2771489407", "MATCHES_RATE_LIMIT");
     setMethodRateLimits("https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/HChslF21F_QcYWDPxFKbSjtBveC4Utg0ZGGbBl6INyjcnz8", "MATCH_LIST_RATE_LIMIT");
     setMethodRateLimits("https://na1.api.riotgames.com/lol/summoner/v4/summoners/qS2xtsrVG_lZ0IN8qK-b6JZCFBIBVAvvdhoxDFS-MdZgAiU","SUMMONER_RATE_LIMIT");
@@ -108,9 +108,6 @@ function setMethodRateLimits(restUrl, method){
 }
 
 module.exports = {
-    getAllRateLimits,
-    APPLICATION_RATE_LIMIT,
-    MATCH_LIST_RATE_LIMIT,
-    MATCHES_RATE_LIMIT,
-    SUMMONER_RATE_LIMIT
+    updateRateLimits,
+    setAllRateLimits
 }
