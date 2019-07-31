@@ -1,4 +1,4 @@
-
+//TODO: rename to something more appropriate / seperate out data into different files
 const constants = {
     ranksss: ["IRON","BRONZE","SILVER","GOLD","PLATINUM","DIAMOND"],
     ranks: ["IRON"],
@@ -23,6 +23,12 @@ let concurrent = {
     
 }
 let all_time = {
+    matchIdsSet: new Set(),
+    summonerIdToLastUsed: {},
+}
+
+// on insert to DB this should be reset
+let to_be_inserted = {
     matchIdsSet: new Set(),
     summonerIdToLastUsed: {},
 }
