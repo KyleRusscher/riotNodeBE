@@ -1,7 +1,17 @@
 const async = require('async');
 const process = require('./ApiCalls/processQueues')
+const initialize = require('./ApiCalls/initializeQueues')
 const taskQueueConcurrency = 1;
 
+function kickOffProcess(){
+    initialize.getExistingQueueData()
+    .then(function() {
+        if(summonerIdQueue.length() < 10){
+            initialize.initializeSummonerIdQueue();
+        }
+    })
+    
+}
 var summonerIdQueue = async.queue(function(task, cb) {
     console.log("performingTask: " + task.id)
     console.log("waiting to be processed: " + summonerIdQueue.length())
