@@ -1,1 +1,4 @@
-{"level":"info","message":{"status":{"message":"Bad Request - Expected message of type summonerId, but found accountId","status_code":400}}}
+{"level":"info","message":{"status":{"message":"Data not found","status_code":404}}}
+{"level":"info","message":{"status":{"message":"Data not found","status_code":404}}}
+{"level":"info","message":{"status":{"message":"Data not found","status_code":404}}}
+{"level":"info","message":{"status":{"message":"Data not found","status_code":404}}}

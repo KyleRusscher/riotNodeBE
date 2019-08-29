@@ -10,7 +10,7 @@ function initializeSummonerIdQueue() {
     initializeMasterPlus();
 }
 
-function initializeSummonerIdQueue() {
+function getExistingQueueData() {
     // connect this with DB module and assign initial data values
     return Promise.resolve();
 }

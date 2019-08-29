@@ -7,7 +7,7 @@ const constants = {
 }
 
 const apiKey = 'RGAPI-d4c65e21-0fba-4e99-9687-ddc3ba197ed3';
-const apiKey2 = 'RGAPI-e1534318-1d47-4a51-a739-e13e3e9d2465'
+const apiKey2 = 'RGAPI-8dd708ff-0a15-402e-84af-b2b4e239f1dd'
 
 const headers = {
     "Origin": "https://developer.riotgames.com",
@@ -17,26 +17,29 @@ const headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
 }
 
-const concurrent = {
-    summonerIdSet: new Set(),
-    matchIdSet: new Set(),
-    
-}
+// const concurrent = {
+//     summonerIdSet: new Set(),
+// }
 const all_time = {
-    matchIdsSet: new Set(),
+    matchIdSet: new Set(),
     summonerIdToLastUsed: {},
 }
 
+const msIn5Days = 5 * 24 * 60 * 60 * 1000
+
 // on insert to DB this should be reset
 const to_be_inserted = {
-    matchIdsSet: new Set(),
+    matchIdSet: new Set(),
     summonerIdToLastUsed: {},
 }
+
+const championData = {}
 
 module.exports = {
     constants,
     headers,
-    concurrent,
     all_time,
-    to_be_inserted
+    to_be_inserted,
+    championData,
+    msIn5Days
 }

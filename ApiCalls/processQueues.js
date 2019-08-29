@@ -1,51 +1,63 @@
-const main = require('./../main')
-const data = require('./../Data/constants.js')
-const async = require('./../node_modules/async');
-const axios = require('./../node_modules/axios');
-const rate_limit = require('./rate_limit');
-const logger = require('./errorHandling/errorLogging');
-const headers = data.headers;
+// const data = require('./../Data/constants.js')
+// const async = require('./../node_modules/async');
+// const axios = require('./../node_modules/axios');
+// const rate_limit = require('./rate_limit');
+// const logger = require('./errorHandling/errorLogging');
+// const headers = data.headers;
 
-function processSummonerId(summonerId) {
-    rate_limit.updateRateLimits("MATCH_LIST_RATE_LIMIT");
-    axios.get(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${summonerId}`, {headers})
-        .then(response => {
-            async.each(response.data.matches, function(match, cb) {
-                // TODO: add participants back to summonerIdQueue and add / remove data from queues
-                console.log(match.gameId)
-                main.matchIdQueue.push({matchId: match.gameId})
-                cb();
-            });
-        })
-        .catch(err => {
-            logger.info(err.response.data, err.response.headers.date)
-        });
-}
+// function processSummonerId(summonerId, matchIdQueue) {
+//     rate_limit.updateRateLimits("MATCH_LIST_RATE_LIMIT");
+//     axios.get(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${summonerId}`, {headers})
+//         .then(response => {
+//             async.each(response.data.matches, function(match, cb) {
+//                 matchIdQueue.push({matchId: match.gameId})
+//                 data.all_time.matchIdSet.add(match.gameId)
+//                 data.to_be_inserted.matchIdSet.add(match.gameId)
+//                 cb();
+//             });
+//         })
+//         .catch(err => {
+//             logger.info(err.response.data, err.response.headers.date)
+//         });
+// }
 
-function processMatchData(data){
-    //TODO: implement
-}
+// function processMatchData(matchData){
+//     const winningTeam = matchData.teams[0].win === "Win" ? matchData.teams[0].teamId : matchData.teams[1].teamId 
+//     async.each(data.participants, function(summoner, cb) {
+//         if(data.championData[summoner.championId]){
+//             summoner.teamId === winningTeam ? data.championData[summoner.championId].wins++ : data.championData[summoner.championId].losses++;
+//         } else {
+//             data.championData[summoner.championId] = {wins:0, losses:0}
+//             summoner.teamId === winningTeam ? data.championData[summoner.championId].wins++ : data.championData[summoner.championId].losses++;
+//         }
+//         cb()
+//     })
+// }
 
-function processMatchId(matchId) {
-    rate_limit.updateRateLimits("MATCHES_RATE_LIMIT");
-    axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${matchId}`, {headers})
-        .then(response => {
-             //TODO: add matchId to all time matchIds and to be inserted match ids
-            const formatedData = getRequiredDate(response.data);
-            main.matchDataQueue.push({matchData: formatedData})
-        })
-        .catch(err => {
-            logger.info(err.response.data, err.response.headers.date);
-        });
-}
+// function addNewSummonerIds(participants, summonerIdQueue) {
+//     async.each(participants, function(summoner, cb) {
+//         summonerIdQueue.push({id: summoner.player.accountId})
+//     })
+// }
 
-// TODO: implement what is needed from match data (eventually create multiple data extraction methods for different purposes)
-function getRequiredDate(data) {
-    return data
-}
+// function processMatchId(matchId, summonerIdQueue) {
+//     rate_limit.updateRateLimits("MATCHES_RATE_LIMIT");
+//     axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/${matchId}`, {headers})
+//         .then(response => {
+//              //TODO: add matchId to all time matchIds and to be inserted match ids
+//             processMatchData(response.data);
+//             addNewSummonerIds(response.data.participantIdentities, summonerIdQueue)
+//             console.log(data.championData)
+//             //main.matchDataQueue.push({matchData: formatedData})
+//         })
+//         .catch(err => {
+//             logger.info(err.response.data, err.response.headers.date);
+//         });
+// }
 
-module.exports = {
-    processSummonerId,
-    processMatchId,
-    processMatchData
-}
+
+// module.exports = {
+//     processSummonerId,
+//     processMatchId,
+//     processMatchData
+// }
