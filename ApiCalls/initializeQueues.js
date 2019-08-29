@@ -1,10 +1,20 @@
 const main = require('./../main')
-const data = require('../Data/constants.js')
+const data = require('./../Data/constants.js')
 const async = require('./../node_modules/async');
 const axios = require('./../node_modules/axios');
 const logger = require('./errorHandling/errorLogging');
 const headers = data.headers;
-// TODO: add rate limiting for this even though its only ~25 calls
+
+function initializeSummonerIdQueue() {
+    initializeBelowMaster();
+    initializeMasterPlus();
+}
+
+function getExistingQueueData() {
+    // connect this with DB module and assign initial data values
+    return Promise.resolve();
+}
+
 function initializeBelowMaster() {
     data.constants.ranks.forEach(rank => {
         data.constants.divisions.forEach(division => {
@@ -43,10 +53,9 @@ function initializeMasterPlus() {
 
 
 function summonerIdsToAccountIds(summonerId){
+    rate_limit.updateRateLimits("SUMMONER_RATE_LIMIT");
     axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}`, {headers})
         .then(response => {
-            checkForRateLimit(response.headers['x-app-rate-limit'], response.headers['x-app-rate-limit-count'],
-                response.headers['x-method-rate-limit'], response.headers['x-method-rate-limit-count'], response.headers['']);
             return response.data.accountId;
         })
         .catch(err => {
@@ -55,6 +64,6 @@ function summonerIdsToAccountIds(summonerId){
 }
 
 module.exports = {
-    initializeBelowMaster,
-    initializeMasterPlus
+    initializeSummonerIdQueue,
+    getExistingQueueData
 }
